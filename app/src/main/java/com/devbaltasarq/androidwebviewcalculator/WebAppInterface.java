@@ -8,16 +8,17 @@ import android.widget.Toast;
  * Maneja la interfaz desde la web.
  */
 public class WebAppInterface {
-    Context mContext;
+    Context context;
 
     /** Instantiate the interface and set the context */
     WebAppInterface(Context c) {
-        mContext = c;
+        this.context = c;
     }
 
-    /** Show a toast from the web page */
+    /** Show a toast from the web page - muestra un mensaje desde la interfaz web
+    */
     @JavascriptInterface
     public void showToast(String toast) {
-        Toast.makeText( mContext, toast, Toast.LENGTH_LONG ).show();
+        Toast.makeText( context, toast, Toast.LENGTH_LONG ).show();
     }
 }
