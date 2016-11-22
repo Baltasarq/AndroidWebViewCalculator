@@ -2,6 +2,7 @@ package com.devbaltasarq.androidwebviewcalculator;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.webkit.WebSettings;
@@ -57,17 +58,28 @@ public class MainActivity extends AppCompatActivity {
 
         // Load a HTML file from the assets subdir
         StringBuilder builder = new StringBuilder();
+        InputStream in = null;
         try {
             String line;
 
-            InputStream in = this.getAssets().open( "calc.html" );
+            in = this.getAssets().open( "calc.html" );
             BufferedReader inf = new BufferedReader( new InputStreamReader( in ) );
 
-            while( ( line = inf.readLine()) != null) {
+            while( ( line = inf.readLine()) != null ) {
                 builder.append( line );
             }
         } catch (IOException e) {
             builder.append( "<html><body><big>ERROR internal: loading asset</big></body></html>");
+            Log.e( "main.configureWebView", "error loading asset 'calc.html'" );
+        }
+        finally {
+            try {
+                if ( in != null ) {
+                    in.close();
+                }
+            } catch(IOException exc) {
+                // ignored
+            }
         }
 
         wvView.loadData( builder.toString(), "text/html", "utf-8" );
